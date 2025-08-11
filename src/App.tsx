@@ -1,7 +1,7 @@
 // App.tsx
 import React, { useState, useEffect } from 'react';
 import type { JobApplication, JobStatus, Column } from './types';
-import { saveJobsToStorage, loadJobsFromStorage } from './utils/localstorage';
+import { saveJobsToStorage, loadJobsFromStorage } from './utils/storage';
 
 // Components
 import Layout from './components/Layout';
@@ -123,7 +123,7 @@ const App: React.FC = () => {
       />
 
       {/* Kanban Board */}
-      <main className="max-w-7xl mx-auto px-6 py-6">
+      <main className=" mx-auto px-20 py-12">
         <div className="flex space-x-6 overflow-x-auto pb-6">
           {COLUMNS.map(column => {
             const columnJobs = filteredJobs.filter(job => job.status === column.id);

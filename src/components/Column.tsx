@@ -24,7 +24,7 @@ const ColumnComponent: React.FC<ColumnProps> = ({
   onAddJob 
 }) => {
   return (
-    <div className="flex-shrink-0 w-80">
+    <div className="flex-shrink-0 w-72 max-h-full min-h-full">
       <div className={`rounded-lg border-2 ${column.lightColor} h-full`}>
         {/* Column Header */}
         <div className={`${column.color} text-white p-4 rounded-t-lg flex items-center justify-between`}>

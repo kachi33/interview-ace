@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange, onAddJob })
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">InterviewAce</h1>
-              <p className="text-sm text-gray-600">Job Hunt 2024</p>
+              <p className="text-sm text-gray-600">Job Hunt 2025</p>
             </div>
           </div>
 

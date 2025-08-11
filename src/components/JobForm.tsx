@@ -1,7 +1,7 @@
 // components/JobForm/JobForm.tsx
 import React, { useState } from 'react';
 import type { JobApplication, JobStatus, Column } from '..//types';
-import { generateId } from '../utils/localstorage';
+import { generateId } from '../utils/storage';
 
 interface JobFormData {
   company: string;
@@ -63,7 +63,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, columns, onSave, onCancel }) => 
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black bg-opacity-10 flex items-center justify-center p-4 z-50"
       onClick={handleModalClick}
     >
       <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl">
