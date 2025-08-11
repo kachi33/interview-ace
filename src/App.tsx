@@ -92,7 +92,7 @@ const App: React.FC = () => {
     saveJobsToStorage(updatedJobs);
   };
 
-  const handleAddJob = (status: JobStatus = 'wishlist'): void => {
+  const handleAddJob = (): void => {
     setEditingJob(undefined);
     setShowForm(true);
   };
