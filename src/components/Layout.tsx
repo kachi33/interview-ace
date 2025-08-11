@@ -6,8 +6,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      {children}
+    <div className="h-screen bg-gradient-to-br font-space-grotesk from-purple-50 to-blue-50 flex flex-col overflow-hidden">
+      <div className="flex-1 overflow-hidden">
+        {children}
+      </div>
+      <footer className="text-center py-4 text-gray-600 text-sm font-griffy">
+        Made with love by Kachi
+      </footer>
     </div>
   );
 };

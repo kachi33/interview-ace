@@ -63,7 +63,7 @@ const JobForm: React.FC<JobFormProps> = ({ job, columns, onSave, onCancel }) => 
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-10 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
       onClick={handleModalClick}
     >
       <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl">

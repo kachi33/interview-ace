@@ -51,9 +51,8 @@ const COLUMNS: Column[] = [
 const App: React.FC = () => {
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
+  const [editingJob, setEditingJob] = useState<JobApplication | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [defaultStatus, setDefaultStatus] = useState<JobStatus>('wishlist');
 
   // Load jobs on mount
   useEffect(() => {
@@ -69,7 +68,7 @@ const App: React.FC = () => {
     setJobs(updatedJobs);
     saveJobsToStorage(updatedJobs);
     setShowForm(false);
-    setEditingJob(null);
+    setEditingJob(undefined);
   };
 
   const handleEditJob = (job: JobApplication): void => {
@@ -94,14 +93,13 @@ const App: React.FC = () => {
   };
 
   const handleAddJob = (status: JobStatus = 'wishlist'): void => {
-    setDefaultStatus(status);
-    setEditingJob(null);
+    setEditingJob(undefined);
     setShowForm(true);
   };
 
   const handleCloseForm = (): void => {
     setShowForm(false);
-    setEditingJob(null);
+    setEditingJob(undefined);
   };
 
   const handleSearchChange = (term: string): void => {
@@ -146,7 +144,7 @@ const App: React.FC = () => {
       {/* Job Form Modal */}
       {showForm && (
         <JobForm
-          job={editingJob || { status: defaultStatus } as JobApplication}
+          job={editingJob}
           columns={COLUMNS}
           onSave={handleSaveJob}
           onCancel={handleCloseForm}
