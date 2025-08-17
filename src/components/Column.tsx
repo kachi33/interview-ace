@@ -1,5 +1,6 @@
 // components/Column/Column.tsx
 import React from 'react';
+import { Droppable } from '@hello-pangea/dnd';
 import { Plus, Building2 } from 'lucide-react';
 import type { JobApplication, JobStatus, Column } from '../types';
 import JobCard from './JobCard';
@@ -44,33 +45,45 @@ const ColumnComponent: React.FC<ColumnProps> = ({
         </div>
 
         {/* Column Content */}
-        <div className="p-4 space-y-3 min-h-[500px] max-h-[calc(100vh-200px)] overflow-y-auto">
-          {jobs.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="text-gray-400 mb-2">
-                <Building2 size={32} className="mx-auto" />
-              </div>
-              <p className="text-sm text-gray-500">No applications yet</p>
-              <button
-                onClick={() => onAddJob(column.id)}
-                className={`mt-2 text-xs ${column.textColor} hover:underline transition-colors`}
-              >
-                Add Job
-              </button>
+        <Droppable droppableId={column.id}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className={`p-4 space-y-3 min-h-[500px] max-h-[calc(100vh-200px)] overflow-y-auto transition-colors ${
+                snapshot.isDraggingOver ? 'bg-gray-50' : ''
+              }`}
+            >
+              {jobs.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-gray-400 mb-2">
+                    <Building2 size={32} className="mx-auto" />
+                  </div>
+                  <p className="text-sm text-gray-500">No applications yet</p>
+                  <button
+                    onClick={() => onAddJob(column.id)}
+                    className={`mt-2 text-xs ${column.textColor} hover:underline transition-colors`}
+                  >
+                    Add Job
+                  </button>
+                </div>
+              ) : (
+                jobs.map((job, index) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    index={index}
+                    columns={columns}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    onStatusChange={onStatusChange}
+                  />
+                ))
+              )}
+              {provided.placeholder}
             </div>
-          ) : (
-            jobs.map(job => (
-              <JobCard
-                key={job.id}
-                job={job}
-                columns={columns}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onStatusChange={onStatusChange}
-              />
-            ))
           )}
-        </div>
+        </Droppable>
       </div>
     </div>
   );

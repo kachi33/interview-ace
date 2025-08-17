@@ -1,5 +1,7 @@
 // App.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { DragDropContext } from '@hello-pangea/dnd';
+import type { DropResult } from '@hello-pangea/dnd';
 import type { JobApplication, JobStatus, Column } from './types';
 import { saveJobsToStorage, loadJobsFromStorage } from './utils/storage';
 
@@ -106,6 +108,25 @@ const App: React.FC = () => {
     setSearchTerm(term);
   };
 
+  // Handle drag and drop
+  const onDragEnd = (result: DropResult): void => {
+    const { destination, source, draggableId } = result;
+
+    // If no destination, do nothing
+    if (!destination) {
+      return;
+    }
+
+    // If dropped in the same position, do nothing
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    // Update job status
+    const newStatus = destination.droppableId as JobStatus;
+    handleStatusChange(draggableId, newStatus);
+  };
+
   // Filter jobs by search term
   const filteredJobs = jobs.filter(job =>
     job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,25 +142,27 @@ const App: React.FC = () => {
       />
 
       {/* Kanban Board */}
-      <main className=" mx-auto px-20 py-12">
-        <div className="flex space-x-6 overflow-x-auto pb-6">
-          {COLUMNS.map(column => {
-            const columnJobs = filteredJobs.filter(job => job.status === column.id);
-            return (
-              <ColumnComponent
-                key={column.id}
-                column={column}
-                columns={COLUMNS}
-                jobs={columnJobs}
-                onEdit={handleEditJob}
-                onDelete={handleDeleteJob}
-                onStatusChange={handleStatusChange}
-                onAddJob={handleAddJob}
-              />
-            );
-          })}
-        </div>
-      </main>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <main className=" mx-auto md:px-20 px-6 py-12">
+          <div className="flex space-x-6 overflow-x-auto pb-6">
+            {COLUMNS.map(column => {
+              const columnJobs = filteredJobs.filter(job => job.status === column.id);
+              return (
+                <ColumnComponent
+                  key={column.id}
+                  column={column}
+                  columns={COLUMNS}
+                  jobs={columnJobs}
+                  onEdit={handleEditJob}
+                  onDelete={handleDeleteJob}
+                  onStatusChange={handleStatusChange}
+                  onAddJob={handleAddJob}
+                />
+              );
+            })}
+          </div>
+        </main>
+      </DragDropContext>
 
       {/* Job Form Modal */}
       {showForm && (
